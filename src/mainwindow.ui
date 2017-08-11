@@ -51,7 +51,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Formula</string>
+          <string>f(z) =</string>
          </property>
         </widget>
        </item>
@@ -68,6 +68,9 @@
            <width>120</width>
            <height>24</height>
           </size>
+         </property>
+         <property name="text">
+          <string>z^2 + 1</string>
          </property>
         </widget>
        </item>
@@ -301,6 +304,9 @@
          <property name="text">
           <string>Draw</string>
          </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="10" column="0">
@@ -467,6 +473,19 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>formulaLineEdit</tabstop>
+  <tabstop>reminLineEdit</tabstop>
+  <tabstop>remaxLineEdit</tabstop>
+  <tabstop>imminLineEdit</tabstop>
+  <tabstop>immaxLineEdit</tabstop>
+  <tabstop>imageWidthSpinBox</tabstop>
+  <tabstop>imageHeightSpinBox</tabstop>
+  <tabstop>coloringMethodComboBox</tabstop>
+  <tabstop>colorSlopeLineEdit</tabstop>
+  <tabstop>drawButton</tabstop>
+  <tabstop>imageScrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
