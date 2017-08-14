@@ -381,9 +381,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>1000</width>
-         <height>1000</height>
+         <y>223</y>
+         <width>0</width>
+         <height>0</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -394,20 +394,20 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>1000</width>
-         <height>1000</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>1000</width>
-         <height>1000</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="baseSize">
         <size>
-         <width>1000</width>
-         <height>1000</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="palette">

@@ -28,7 +28,8 @@ SOURCES += \
     src/mainwindow.cpp
 
 HEADERS += \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/plotdata.h
 
 FORMS += \
     src/mainwindow.ui

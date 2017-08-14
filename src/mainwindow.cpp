@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+#include "plotdata.h"
+
+MainWindow::MainWindow(QWidget * parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -12,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->remaxLineEdit->setValidator(doubleValidator);
     ui->imminLineEdit->setValidator(doubleValidator);
     ui->immaxLineEdit->setValidator(doubleValidator);
+    ui->colorSlopeLineEdit->setValidator(doubleValidator);
 }
 
 MainWindow::~MainWindow()
@@ -21,7 +24,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_drawButton_clicked()
 {
-    int width = ui->imageWidthSpinBox->value();
-    int height = ui->imageHeightSpinBox->value();
-    ui->imageWidget->setFixedSize(width, height);
+    // read the data
+    PlotData plotData;
+    plotData.formula = ui->formulaLineEdit->text();
+    plotData.reMin = ui->reminLineEdit->text().toDouble();
+    plotData.reMax = ui->remaxLineEdit->text().toDouble();
+    plotData.imMin = ui->imminLineEdit->text().toDouble();
+    plotData.imMax = ui->immaxLineEdit->text().toDouble();
+    plotData.imageWidth = ui->imageWidthSpinBox->value();
+    plotData.imageHeight = ui->imageHeightSpinBox->value();
+    plotData.coloringMethod = ui->coloringMethodComboBox->currentIndex();
+    plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
+
+    // process
+    ui->imageWidget->setFixedSize(plotData.imageWidth, plotData.imageHeight);
 }

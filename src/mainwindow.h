@@ -1,7 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef COMPLEXPLOT_QT_MAINWINDOW_H
+#define COMPLEXPLOT_QT_MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QImage>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,8 @@ private slots:
 
 private:
     Ui::MainWindow * ui;
+
+    QImage imageBuffer;
 };
 
-#endif // MAINWINDOW_H
+#endif // COMPLEXPLOT_QT_MAINWINDOW_H
