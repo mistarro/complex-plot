@@ -377,7 +377,7 @@
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
-      <widget class="QWidget" name="imageWidget">
+      <widget class="PlotWidget" name="plotWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -473,6 +473,14 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>plotwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>formulaLineEdit</tabstop>
   <tabstop>reminLineEdit</tabstop>
