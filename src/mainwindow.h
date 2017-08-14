@@ -21,8 +21,6 @@ private slots:
 
 private:
     Ui::MainWindow * ui;
-
-    QImage imageBuffer;
 };
 
 #endif // COMPLEXPLOT_QT_MAINWINDOW_H

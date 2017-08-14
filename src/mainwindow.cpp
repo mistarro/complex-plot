@@ -37,5 +37,5 @@ void MainWindow::on_drawButton_clicked()
     plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
 
     // process
-    ui->plotWidget->setFixedSize(plotData.imageWidth, plotData.imageHeight);
+    ui->plotWidget->redraw(plotData);
 }
