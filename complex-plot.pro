@@ -28,13 +28,15 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/plotwidget.cpp \
-    src/coloring.cpp
+    src/coloring.cpp \
+    src/function.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/plotdata.h \
     src/plotwidget.h \
-    src/coloring.h
+    src/coloring.h \
+    src/function.h
 
 FORMS += \
     src/mainwindow.ui
