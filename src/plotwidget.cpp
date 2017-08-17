@@ -2,6 +2,7 @@
 #include <QColor>
 
 #include "plotwidget.h"
+#include "coloring.h"
 
 void PlotWidget::redraw(PlotData const & plotData)
 {
@@ -10,7 +11,17 @@ void PlotWidget::redraw(PlotData const & plotData)
     for (int j = 0; j < imageBuffer.height(); ++j)
     for (int i = 0; i < imageBuffer.width(); ++i)
     {
-          imageBuffer.setPixelColor(i, j, QColor(i&0xff, j&0xff, (i+j)&0xff));
+        // compute complex argument for the pixel at (i, j)
+        std::complex<double> z(
+            (plotData.reMax - plotData.reMin)*i/plotData.imageWidth + plotData.reMin,
+            (plotData.imMin - plotData.imMax)*j/plotData.imageHeight + plotData.imMax
+        );
+
+        // compute color
+        double r, g, b;
+        complex2rgb_HL(z, plotData.colorSlope, r, g, b);
+
+        imageBuffer.setPixelColor(i, j, QColor(int(r*255.9), int(g*255.9), int(b*255.9)));
     }
 
     this->setFixedSize(plotData.imageWidth, plotData.imageHeight);

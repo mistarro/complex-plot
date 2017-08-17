@@ -27,12 +27,14 @@ INCLUDEPATH += $$PWD/src/
 SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/plotwidget.cpp
+    src/plotwidget.cpp \
+    src/coloring.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/plotdata.h \
-    src/plotwidget.h
+    src/plotwidget.h \
+    src/coloring.h
 
 FORMS += \
     src/mainwindow.ui
