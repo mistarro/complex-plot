@@ -3,10 +3,12 @@
 
 #include "plotwidget.h"
 #include "coloring.h"
+#include "function.h"
 
 void PlotWidget::redraw(PlotData const & plotData)
 {
     imageBuffer = QImage(plotData.imageWidth, plotData.imageHeight, QImage::Format_RGB888);
+    Function f(plotData.formula.toStdString());
 
     for (int j = 0; j < imageBuffer.height(); ++j)
     for (int i = 0; i < imageBuffer.width(); ++i)
@@ -17,9 +19,12 @@ void PlotWidget::redraw(PlotData const & plotData)
             (plotData.imMin - plotData.imMax)*j/plotData.imageHeight + plotData.imMax
         );
 
+        // compute value
+        complex value = f(z);
+
         // compute color
         double r, g, b;
-        complex2rgb_HL(z, plotData.colorSlope, r, g, b);
+        complex2rgb_HL(value, plotData.colorSlope, r, g, b);
 
         imageBuffer.setPixelColor(i, j, QColor(int(r*255.9), int(g*255.9), int(b*255.9)));
     }
