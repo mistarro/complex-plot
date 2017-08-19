@@ -1,5 +1,6 @@
 #include <QPainter>
 #include <QColor>
+#include <QMessageBox>
 
 #include "plotwidget.h"
 #include "coloring.h"
@@ -7,8 +8,19 @@
 
 void PlotWidget::redraw(PlotData const & plotData)
 {
+  Function f;
+  try
+  {
+    f.fromFormula(plotData.formula.toStdString());
+  }
+  catch (std::invalid_argument const & e)
+  {
+    std::string error_msg = std::string("Formula error: ") + e.what() + ".";
+    QMessageBox::warning(this, QString("Formula error"), QString::fromStdString(error_msg));
+    return;
+  }
+
   imageBuffer = QImage(plotData.imageWidth, plotData.imageHeight, QImage::Format_RGB888);
-  Function f(plotData.formula.toStdString());
 
   for (int j = 0; j < imageBuffer.height(); ++j)
   for (int i = 0; i < imageBuffer.width(); ++i)

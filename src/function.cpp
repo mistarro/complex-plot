@@ -1,6 +1,6 @@
 #include "function.h"
 
-Function::Function(std::string const & formula)
+void Function::fromFormula(std::string const & formula)
 {
   (void)formula;
 }

@@ -9,7 +9,7 @@ using complex = std::complex<double>;
 class Function
 {
 public:
-  Function(std::string const & formula);
+  void fromFormula(std::string const & formula);
 
   complex operator()(complex const &) const;
 };
