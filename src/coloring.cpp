@@ -64,5 +64,11 @@ inline double lightness_HL(std::complex<double> z, double a)
 
 void complex2rgb_HL(std::complex<double> z, double a, double & r, double & g, double & b)
 {
+  if (std::isnan(z.real()) || std::isnan(z.real()))
+  {
+    r = g = b = 0.5;
+    return;
+  }
+
   hl2rgb(hue(z), lightness_HL(z, a), r, g, b);
 }
