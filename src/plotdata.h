@@ -3,18 +3,18 @@
 
 struct PlotData
 {
-    QString formula;
+  QString formula;
 
-    double reMin;
-    double reMax;
-    double imMin;
-    double imMax;
+  double reMin;
+  double reMax;
+  double imMin;
+  double imMax;
 
-    int imageWidth;
-    int imageHeight;
+  int imageWidth;
+  int imageHeight;
 
-    int coloringMethod;
-    double colorSlope;
+  int coloringMethod;
+  double colorSlope;
 };
 
 #endif // COMPLEXPLOT_QT_PLOTDATA_H

@@ -8,21 +8,21 @@
 
 class PlotWidget : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
+  explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
-    void redraw(PlotData const & plotData);
+  void redraw(PlotData const & plotData);
 
 signals:
 
 public slots:
 
 protected:
-    void paintEvent(QPaintEvent * event);
+  void paintEvent(QPaintEvent * event);
 
 private:
-    QImage imageBuffer;
+  QImage imageBuffer;
 };
 
 #endif // PLOTWIDGET_H
