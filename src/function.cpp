@@ -40,12 +40,12 @@ struct Lexer::Token
   Type type;
   std::string value;
 
-  Token(Type type, std::string value = "") :
+  explicit Token(Type type, std::string value = "") :
     type(type),
     value(value)
   {}
 
-  Token(Type type, std::string::const_iterator begin, std::string::const_iterator end) :
+  explicit Token(Type type, std::string::const_iterator begin, std::string::const_iterator end) :
     type(type),
     value(begin, end)
   {}
