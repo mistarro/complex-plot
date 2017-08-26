@@ -1,10 +1,21 @@
 #ifndef PLOTWIDGET_H
 #define PLOTWIDGET_H
 
+#include <chrono>
+
 #include <QWidget>
 #include <QImage>
 
 #include "plotdata.h"
+
+struct RedrawInfo
+{
+  using DurationType = std::chrono::duration<double>;
+
+  DurationType parsingDuration;
+  DurationType computingDuration;
+  DurationType coloringDuration;
+};
 
 class PlotWidget : public QWidget
 {
@@ -12,7 +23,7 @@ class PlotWidget : public QWidget
 public:
   explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
-  void redraw(PlotData const & plotData);
+  RedrawInfo redraw(PlotData const & plotData);
 
 signals:
 

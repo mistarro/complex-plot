@@ -1,3 +1,6 @@
+#include <sstream>
+#include <iomanip>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -26,7 +29,7 @@ void MainWindow::on_drawButton_clicked()
 {
   // read the data
   PlotData plotData;
-  plotData.formula = ui->formulaLineEdit->text();
+  plotData.formula = ui->formulaLineEdit->text().toStdString();
   plotData.reMin = ui->reminLineEdit->text().toDouble();
   plotData.reMax = ui->remaxLineEdit->text().toDouble();
   plotData.imMin = ui->imminLineEdit->text().toDouble();
@@ -37,5 +40,13 @@ void MainWindow::on_drawButton_clicked()
   plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
 
   // process
-  ui->plotWidget->redraw(plotData);
+  auto info = ui->plotWidget->redraw(plotData);
+
+  // create info
+  std::stringstream message;
+  message << std::fixed << std::setprecision(2)
+          << "Parsing: " << info.parsingDuration.count()
+          << "s; Computing: " << info.computingDuration.count()
+          << "s; Coloring: " << info.coloringDuration.count() << "s.";
+  ui->statusBar->showMessage(QString::fromStdString(message.str()));
 }

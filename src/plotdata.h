@@ -1,9 +1,11 @@
 #ifndef COMPLEXPLOT_QT_PLOTDATA_H
 #define COMPLEXPLOT_QT_PLOTDATA_H
 
+#include <string>
+
 struct PlotData
 {
-  QString formula;
+  std::string formula;
 
   double reMin;
   double reMax;
