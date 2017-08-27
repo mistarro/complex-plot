@@ -76,7 +76,11 @@ void MainWindow::on_drawButton_clicked()
 void MainWindow::on_actionSave_triggered()
 {
   QString path = QFileDialog::getSaveFileName(this, QString(), QString(), QString("Images (*.png)"));
-  QMessageBox::information(this, QString("Path"), path);
+  if (path.isNull())
+    return;
+  if (ui->plotWidget->saveImage(path))
+    return;
+  QMessageBox::warning(this, QString("Warning"), QString("Image has not been saved (wrong extension)."));
 }
 
 void MainWindow::on_actionExit_triggered()

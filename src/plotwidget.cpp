@@ -56,6 +56,11 @@ void PlotWidget::redraw(PlotData const & plotData, RedrawInfo & info)
   info.coloringDuration = coloring_done_time - computing_done_time;
 }
 
+bool PlotWidget::saveImage(QString const & path) const
+{
+  return imageBuffer.save(path);
+}
+
 void PlotWidget::paintEvent(QPaintEvent * event)
 {
   Q_UNUSED(event);

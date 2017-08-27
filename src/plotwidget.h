@@ -24,6 +24,7 @@ public:
   explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
   void redraw(PlotData const & plotData, RedrawInfo & info);
+  bool saveImage(QString const & path) const;
 
 signals:
 
