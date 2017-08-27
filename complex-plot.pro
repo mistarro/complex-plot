@@ -27,7 +27,8 @@ HEADERS += \
     src/plotdata.h \
     src/plotwidget.h \
     src/coloring.h \
-    src/function.h
+    src/function.h \
+    src/version.h
 
 FORMS += \
     src/mainwindow.ui

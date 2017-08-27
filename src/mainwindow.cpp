@@ -9,6 +9,7 @@
 #include "ui_mainwindow.h"
 
 #include "plotdata.h"
+#include "version.h"
 
 MainWindow::MainWindow(QWidget * parent) :
   QMainWindow(parent),
@@ -90,5 +91,5 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-  QMessageBox::about(this, QString("About complex-plot"), QString("complex-plot v0.9"));
+  QMessageBox::about(this, QString("About complex-plot"), QString("complex-plot " VERSION_STRING));
 }
