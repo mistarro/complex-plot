@@ -23,7 +23,7 @@ class PlotWidget : public QWidget
 public:
   explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
-  RedrawInfo redraw(PlotData const & plotData);
+  void redraw(PlotData const & plotData, RedrawInfo & info);
 
 signals:
 

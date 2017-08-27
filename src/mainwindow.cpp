@@ -1,6 +1,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include <QMessageBox>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -11,6 +13,8 @@ MainWindow::MainWindow(QWidget * parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+
+  ui->actionSave->setIcon(this->style()->standardIcon(QStyle::SP_DialogSaveButton));
 
   QValidator * doubleValidator = new QDoubleValidator(this);
   ui->reminLineEdit->setValidator(doubleValidator);
@@ -27,6 +31,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_drawButton_clicked()
 {
+  ui->actionSave->setEnabled(false);
+  ui->statusBar->clearMessage();
+
   // read the data
   PlotData plotData;
   plotData.formula = ui->formulaLineEdit->text().toStdString();
@@ -40,7 +47,18 @@ void MainWindow::on_drawButton_clicked()
   plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
 
   // process
-  auto info = ui->plotWidget->redraw(plotData);
+  RedrawInfo info;
+  try
+  {
+    ui->plotWidget->redraw(plotData, info);
+  }
+  catch (std::invalid_argument const & e)
+  {
+    std::string error_msg = std::string("Formula error: ") + e.what() + ".";
+    QMessageBox::warning(this, QString("Formula error"), QString::fromStdString(error_msg));
+    return;
+  }
+
 
   // create info
   std::stringstream message;
@@ -48,5 +66,7 @@ void MainWindow::on_drawButton_clicked()
           << "Parsing: " << info.parsingDuration.count()
           << "s; Computing: " << info.computingDuration.count()
           << "s; Coloring: " << info.coloringDuration.count() << "s.";
+
   ui->statusBar->showMessage(QString::fromStdString(message.str()));
+  ui->actionSave->setEnabled(true);
 }

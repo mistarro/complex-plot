@@ -4,26 +4,16 @@
 #include <QString>
 #include <QPainter>
 #include <QColor>
-#include <QMessageBox>
 
 #include "plotwidget.h"
 #include "coloring.h"
 #include "function.h"
 
-RedrawInfo PlotWidget::redraw(PlotData const & plotData)
+void PlotWidget::redraw(PlotData const & plotData, RedrawInfo & info)
 {
   auto start_time = std::chrono::system_clock::now();
   Function f;
-  try
-  {
-    f.fromFormula(plotData.formula);
-  }
-  catch (std::invalid_argument const & e)
-  {
-    std::string error_msg = std::string("Formula error: ") + e.what() + ".";
-    QMessageBox::warning(this, QString("Formula error"), QString::fromStdString(error_msg));
-    return RedrawInfo();
-  }
+  f.fromFormula(plotData.formula);
 
   auto parsing_done_time = std::chrono::system_clock::now();
 
@@ -61,11 +51,9 @@ RedrawInfo PlotWidget::redraw(PlotData const & plotData)
   this->setFixedSize(plotData.imageWidth, plotData.imageHeight);
   this->update();
 
-  RedrawInfo info;
   info.parsingDuration = parsing_done_time - start_time;
   info.computingDuration = computing_done_time - parsing_done_time;
   info.coloringDuration = coloring_done_time - computing_done_time;
-  return info;
 }
 
 void PlotWidget::paintEvent(QPaintEvent * event)
