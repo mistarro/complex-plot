@@ -19,6 +19,12 @@ public:
 private slots:
   void on_drawButton_clicked();
 
+  void on_actionSave_triggered();
+
+  void on_actionExit_triggered();
+
+  void on_actionAbout_triggered();
+
 private:
   Ui::MainWindow * ui;
 };

@@ -1,7 +1,9 @@
 #include <sstream>
 #include <iomanip>
 
+#include <QApplication>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -69,4 +71,20 @@ void MainWindow::on_drawButton_clicked()
 
   ui->statusBar->showMessage(QString::fromStdString(message.str()));
   ui->actionSave->setEnabled(true);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+  QString path = QFileDialog::getSaveFileName(this, QString(), QString(), QString("Images (*.png)"));
+  QMessageBox::information(this, QString("Path"), path);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+  QApplication::quit();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+  QMessageBox::about(this, QString("About complex-plot"), QString("complex-plot v0.9"));
 }
