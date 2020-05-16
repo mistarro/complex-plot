@@ -1,17 +1,15 @@
-# complex-plot
+# Complex Plot
+
 Simple tool for visualizing functions in one complex variable.
 
 ## Build and run
-To build complex-plot just go to the directory containing `complex-plot.pro` file and run
 
+Complex Plot uses CMake, to build:
 ```sh
-$ qmake complex-plot.pro
+$ mkdir build && cd build
+$ cmake ..
 $ make
 ```
 
-By default, the binary is created in the `build` subdirectory, so in order to run it, type
+This creates `complex-plot` binary.
 
-```sh
-$ cd build
-$ ./complex-plot &
-```
