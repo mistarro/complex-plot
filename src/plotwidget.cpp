@@ -23,8 +23,9 @@ void PlotWidget::redraw(PlotData const & plotData, RedrawInfo & info)
     for (int i = 0; i < plotData.imageWidth; ++i)
     {
         // compute complex argument for the pixel at (i, j)
-        complex z((plotData.reMax - plotData.reMin)*i/plotData.imageWidth + plotData.reMin,
-            (plotData.imMin - plotData.imMax)*j/plotData.imageHeight + plotData.imMax);
+        double re, im;
+        plotData.image2complex(i, j, re, im);
+        complex z(re, im);
 
         // compute value
         values[j*plotData.imageWidth + i] = f(z);
