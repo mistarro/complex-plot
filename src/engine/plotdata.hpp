@@ -1,6 +1,8 @@
-#ifndef COMPLEXPLOT_QT_PLOTDATA_H
-#define COMPLEXPLOT_QT_PLOTDATA_H
+#ifndef COMPLEXPLOT_PLOTDATA_HPP
+#define COMPLEXPLOT_PLOTDATA_HPP
 
+#include <algorithm>
+#include <chrono>
 #include <string>
 
 struct PlotData
@@ -36,4 +38,13 @@ inline void PlotData::complex2image(double re, double im, int & x, int & y) cons
     y = std::min(std::max(yy, 0), imageHeight - 1);
 }
 
-#endif // COMPLEXPLOT_QT_PLOTDATA_H
+struct RedrawInfo
+{
+    using DurationType = std::chrono::duration<double>;
+
+    DurationType parsingDuration;
+    DurationType computingDuration;
+    DurationType coloringDuration;
+};
+
+#endif // COMPLEXPLOT_PLOTDATA_HPP

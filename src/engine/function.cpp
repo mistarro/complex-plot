@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "function.h"
+#include "function.hpp"
 
 // functions
 std::map<std::string, Expression::NodeFunction> Expression::fun

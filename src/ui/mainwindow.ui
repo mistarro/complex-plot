@@ -20,7 +20,7 @@
    <string notr="true">Complex Plot</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../res/resources.qrc">
+   <iconset resource="../../res/resources.qrc">
     <normaloff>:/icons/cp-icon.png</normaloff>:/icons/cp-icon.png</iconset>
   </property>
   <property name="iconSize">
@@ -390,8 +390,8 @@
       <widget class="PlotWidget" name="plotWidget">
        <property name="geometry">
         <rect>
-         <x>241</x>
-         <y>224</y>
+         <x>248</x>
+         <y>222</y>
          <width>0</width>
          <height>0</height>
         </rect>
@@ -468,7 +468,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -534,7 +534,7 @@
   <customwidget>
    <class>PlotWidget</class>
    <extends>QWidget</extends>
-   <header>plotwidget.h</header>
+   <header>ui/plotwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -552,7 +552,7 @@
   <tabstop>imageScrollArea</tabstop>
  </tabstops>
  <resources>
-  <include location="../res/resources.qrc"/>
+  <include location="../../res/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

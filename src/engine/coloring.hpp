@@ -1,5 +1,5 @@
-#ifndef COMPLEXPLOT_COLORING_H
-#define COMPLEXPLOT_COLORING_H
+#ifndef COMPLEXPLOT_COLORING_HPP
+#define COMPLEXPLOT_COLORING_HPP
 
 #include <complex>
 
@@ -13,4 +13,4 @@
 
 void complex2rgb_HL(std::complex<double>, double, double &, double &, double &);
 
-#endif // COMPLEXPLOT_COLORING_H
+#endif // COMPLEXPLOT_COLORING_HPP

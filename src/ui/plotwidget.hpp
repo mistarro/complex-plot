@@ -1,21 +1,10 @@
-#ifndef PLOTWIDGET_H
-#define PLOTWIDGET_H
-
-#include <chrono>
+#ifndef COMPLEXPLOT_PLOTWIDGET_HPP
+#define COMPLEXPLOT_PLOTWIDGET_HPP
 
 #include <QWidget>
 #include <QImage>
 
-#include "plotdata.h"
-
-struct RedrawInfo
-{
-    using DurationType = std::chrono::duration<double>;
-
-    DurationType parsingDuration;
-    DurationType computingDuration;
-    DurationType coloringDuration;
-};
+#include "engine/plotdata.hpp"
 
 class PlotWidget : public QWidget
 {
@@ -38,4 +27,4 @@ private:
     QImage imageBuffer;
 };
 
-#endif // PLOTWIDGET_H
+#endif // COMPLEXPLOT_PLOTWIDGET_HPP

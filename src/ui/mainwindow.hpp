@@ -1,7 +1,6 @@
-#ifndef COMPLEXPLOT_QT_MAINWINDOW_H
-#define COMPLEXPLOT_QT_MAINWINDOW_H
+#ifndef COMPLEXPLOT_MAINWINDOW_H
+#define COMPLEXPLOT_MAINWINDOW_H
 
-#include <QImage>
 #include <QMainWindow>
 
 namespace Ui {
@@ -26,4 +25,4 @@ private:
     Ui::MainWindow * ui;
 };
 
-#endif // COMPLEXPLOT_QT_MAINWINDOW_H
+#endif // COMPLEXPLOT_MAINWINDOW_H

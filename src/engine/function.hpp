@@ -1,5 +1,5 @@
-#ifndef COMPLEXPLOT_FUNCTION_H
-#define COMPLEXPLOT_FUNCTION_H
+#ifndef COMPLEXPLOT_FUNCTION_HPP
+#define COMPLEXPLOT_FUNCTION_HPP
 
 #include <complex>
 #include <deque>
@@ -65,4 +65,4 @@ private:
     Expression expression;
 };
 
-#endif // COMPLEXPLOT_FUNCTION_H
+#endif // COMPLEXPLOT_FUNCTION_HPP
