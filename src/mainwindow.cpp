@@ -52,7 +52,7 @@ void MainWindow::on_drawButton_clicked()
     RedrawInfo info;
     try
     {
-        ui->plotWidget->redraw(plotData, info);
+        ui->plotWidget->draw(plotData, info);
     }
     catch (std::invalid_argument const & e)
     {
