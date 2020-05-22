@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QMouseEvent>
 
 #include "ui/mainwindow.hpp"
 #include "version.hpp"
@@ -29,6 +30,8 @@ MainWindow::MainWindow(QWidget * parent) :
     ui->colorSlopeLineEdit->setValidator(doubleValidator);
 
     connect(ui->plotWidget, &PlotWidget::engineThreadExited, this, &MainWindow::on_engineThreadExited_triggered);
+    connect(ui->plotWidget, &PlotWidget::mouseMove, this, &MainWindow::on_plotWidget_mouseMoved);
+    connect(ui->plotWidget, &PlotWidget::mouseLeave, this, &MainWindow::on_plotWidget_mouseLeft);
 
     readPlotData();
     ui->plotWidget->clear(plotData);
@@ -139,4 +142,19 @@ void MainWindow::cancel()
 {
     cancellationToken = true;
     ui->statusBar->showMessage("Cancelling...");
+}
+
+void MainWindow::on_plotWidget_mouseMoved(QMouseEvent * event)
+{
+    double re, im;
+    plotData.image2complex(event->x(), event->y(), re, im);
+    std::stringstream message;
+    message << "Mouse: (" << re << ", " << im << ")";
+
+    ui->statusBar->showMessage(QString::fromStdString(message.str()));
+}
+
+void MainWindow::on_plotWidget_mouseLeft()
+{
+    ui->statusBar->showMessage("Ready");
 }

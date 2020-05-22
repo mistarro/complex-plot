@@ -25,6 +25,8 @@ private slots:
     void on_actionExit_triggered();
     void on_actionAbout_triggered();
     void on_engineThreadExited_triggered();
+    void on_plotWidget_mouseMoved(QMouseEvent * event);
+    void on_plotWidget_mouseLeft();
 
 private:
     Ui::MainWindow * ui;

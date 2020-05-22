@@ -22,11 +22,15 @@ public:
 
 signals:
     void engineThreadExited();
+    void mouseMove(QMouseEvent * event);
+    void mouseLeave();
 
 public slots:
 
 protected:
     void paintEvent(QPaintEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void leaveEvent(QEvent * event);
 
 private:
     QImage imageBuffer;

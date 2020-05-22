@@ -457,6 +457,12 @@
          </disabled>
         </palette>
        </property>
+       <property name="cursor">
+        <cursorShape>CrossCursor</cursorShape>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
       </widget>
      </widget>
     </item>

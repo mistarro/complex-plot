@@ -50,3 +50,13 @@ void PlotWidget::paintEvent(QPaintEvent * event)
     QPainter painter(this);
     painter.drawImage(0, 0, imageBuffer);
 }
+
+void PlotWidget::mouseMoveEvent(QMouseEvent * event)
+{
+    emit mouseMove(event);
+}
+
+void PlotWidget::leaveEvent(QEvent * event)
+{
+    emit mouseLeave();
+}
