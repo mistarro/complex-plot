@@ -1,3 +1,4 @@
+#include <future>
 #include <iomanip>
 #include <sstream>
 
@@ -50,10 +51,12 @@ void MainWindow::on_drawButton_clicked()
     plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
 
     // process
+    std::future<RedrawInfo> fut = ui->plotWidget->draw(std::move(plotData));
+
     RedrawInfo info;
     try
     {
-        ui->plotWidget->draw(plotData, info);
+        info = fut.get();
     }
     catch (std::invalid_argument const & e)
     {
@@ -62,16 +65,18 @@ void MainWindow::on_drawButton_clicked()
         return;
     }
 
+    // update UI
 
-    // create info
+    ui->plotWidget->repaint();
+
     std::stringstream message;
     message << std::fixed << std::setprecision(2)
             << "Parsing: " << info.parsingDuration.count()
             << "s; Computing: " << info.computingDuration.count()
             << "s; Coloring: " << info.coloringDuration.count() << "s.";
 
-    ui->statusBar->showMessage(QString::fromStdString(message.str()));
     ui->actionSave->setEnabled(true);
+    ui->statusBar->showMessage(QString::fromStdString(message.str()));
 }
 
 void MainWindow::on_actionSave_triggered()

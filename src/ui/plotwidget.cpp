@@ -1,3 +1,5 @@
+#include <future>
+
 #include <QColor>
 #include <QPainter>
 #include <QString>
@@ -5,7 +7,7 @@
 #include "engine/engine.hpp"
 #include "ui/plotwidget.hpp"
 
-void PlotWidget::draw(PlotData const & plotData, RedrawInfo & info)
+std::future<RedrawInfo> PlotWidget::draw(PlotData plotData)
 {
     imageBuffer = QImage(plotData.imageWidth, plotData.imageHeight, QImage::Format_RGB888);
     QColor blank(64, 64, 64);
@@ -13,13 +15,12 @@ void PlotWidget::draw(PlotData const & plotData, RedrawInfo & info)
     setFixedSize(plotData.imageWidth, plotData.imageHeight);
     repaint();
 
-    redraw(plotData, info,
-            [this](int x, int y, double r, double g, double b)
-            {
-                imageBuffer.setPixelColor(x, y, QColor(int(r*255.9), int(g*255.9), int(b*255.9)));
-            });
+    auto update = [this](int x, int y, double r, double g, double b)
+    {
+        imageBuffer.setPixelColor(x, y, QColor(int(r*255.9), int(g*255.9), int(b*255.9)));
+    };
 
-    repaint();
+    return std::async(&redraw<decltype(update)>, std::move(plotData), std::move(update));
 }
 
 bool PlotWidget::saveImage(QString const & path) const

@@ -9,7 +9,7 @@
 #include "plotdata.hpp"
 
 template <typename UpdateFunc>
-void redraw(PlotData const & plotData, RedrawInfo & info, UpdateFunc update)
+RedrawInfo redraw(PlotData const & plotData, UpdateFunc update)
 {
     auto start_time = std::chrono::system_clock::now();
     Function f;
@@ -44,9 +44,13 @@ void redraw(PlotData const & plotData, RedrawInfo & info, UpdateFunc update)
 
     auto coloring_done_time = std::chrono::system_clock::now();
 
+    RedrawInfo info;
+
     info.parsingDuration = parsing_done_time - start_time;
     info.computingDuration = computing_done_time - parsing_done_time;
     info.coloringDuration = coloring_done_time - computing_done_time;
+
+    return info;
 }
 
 #endif // COMPLEXPLOT_ENGINE_HPP

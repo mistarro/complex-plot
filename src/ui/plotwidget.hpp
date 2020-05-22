@@ -1,6 +1,8 @@
 #ifndef COMPLEXPLOT_PLOTWIDGET_HPP
 #define COMPLEXPLOT_PLOTWIDGET_HPP
 
+#include <future>
+
 #include <QWidget>
 #include <QImage>
 
@@ -13,7 +15,7 @@ class PlotWidget : public QWidget
 public:
     explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
-    void draw(PlotData const & plotData, RedrawInfo & info);
+    std::future<RedrawInfo> draw(PlotData plotData);
     bool saveImage(QString const & path) const;
 
 signals:
