@@ -56,6 +56,11 @@ void PlotWidget::mouseMoveEvent(QMouseEvent * event)
     emit mouseMove(event);
 }
 
+void PlotWidget::mouseReleaseEvent(QMouseEvent * event)
+{
+    emit mouseUp(event);
+}
+
 void PlotWidget::leaveEvent(QEvent * event)
 {
     emit mouseLeave();

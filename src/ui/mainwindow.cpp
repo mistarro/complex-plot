@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget * parent) :
 
     connect(ui->plotWidget, &PlotWidget::engineThreadExited, this, &MainWindow::on_engineThreadExited_triggered);
     connect(ui->plotWidget, &PlotWidget::mouseMove, this, &MainWindow::on_plotWidget_mouseMoved);
+    connect(ui->plotWidget, &PlotWidget::mouseUp, this, &MainWindow::on_plotWidget_mouseUp);
     connect(ui->plotWidget, &PlotWidget::mouseLeave, this, &MainWindow::on_plotWidget_mouseLeft);
 
     readPlotData();
@@ -118,6 +119,8 @@ void MainWindow::readPlotData()
     plotData.reMax = ui->remaxLineEdit->text().toDouble();
     plotData.imMin = ui->imminLineEdit->text().toDouble();
     plotData.imMax = ui->immaxLineEdit->text().toDouble();
+    plotData.reSeed = ui->reSeedLineEdit->text().toDouble();
+    plotData.imSeed = ui->imSeedLineEdit->text().toDouble();
     plotData.imageWidth = ui->imageWidthSpinBox->value();
     plotData.imageHeight = ui->imageHeightSpinBox->value();
     plotData.coloringMethod = ui->coloringMethodComboBox->currentIndex();
@@ -152,6 +155,14 @@ void MainWindow::on_plotWidget_mouseMoved(QMouseEvent * event)
     message << "Mouse: (" << re << ", " << im << ")";
 
     ui->statusBar->showMessage(QString::fromStdString(message.str()));
+}
+
+void MainWindow::on_plotWidget_mouseUp(QMouseEvent * event)
+{
+    double re, im;
+    plotData.image2complex(event->x(), event->y(), re, im);
+    ui->reSeedLineEdit->setText(QString::number(re));
+    ui->imSeedLineEdit->setText(QString::number(im));
 }
 
 void MainWindow::on_plotWidget_mouseLeft()

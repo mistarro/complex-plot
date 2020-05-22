@@ -23,6 +23,7 @@ public:
 signals:
     void engineThreadExited();
     void mouseMove(QMouseEvent * event);
+    void mouseUp(QMouseEvent * event);
     void mouseLeave();
 
 public slots:
@@ -30,6 +31,7 @@ public slots:
 protected:
     void paintEvent(QPaintEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
     void leaveEvent(QEvent * event);
 
 private:

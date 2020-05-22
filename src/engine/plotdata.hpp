@@ -14,6 +14,9 @@ struct PlotData
     double imMin;
     double imMax;
 
+    double reSeed;
+    double imSeed;
+
     int imageWidth;
     int imageHeight;
 
