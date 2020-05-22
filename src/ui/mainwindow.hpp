@@ -1,7 +1,11 @@
 #ifndef COMPLEXPLOT_MAINWINDOW_H
 #define COMPLEXPLOT_MAINWINDOW_H
 
+#include <future>
+
 #include <QMainWindow>
+
+#include "engine/plotdata.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -20,9 +24,22 @@ private slots:
     void on_actionSave_triggered();
     void on_actionExit_triggered();
     void on_actionAbout_triggered();
+    void on_engineThreadExited_triggered();
 
 private:
     Ui::MainWindow * ui;
+
+    enum class State { READY, BUSY };
+
+    State state;
+    std::atomic_bool cancellationToken;
+
+    PlotData plotData;
+    std::future<RedrawInfo> engineFuture;
+
+    void readPlotData();
+    void draw();
+    void cancel();
 };
 
 #endif // COMPLEXPLOT_MAINWINDOW_H

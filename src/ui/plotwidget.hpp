@@ -1,6 +1,7 @@
 #ifndef COMPLEXPLOT_PLOTWIDGET_HPP
 #define COMPLEXPLOT_PLOTWIDGET_HPP
 
+#include <atomic>
 #include <future>
 
 #include <QWidget>
@@ -15,10 +16,12 @@ class PlotWidget : public QWidget
 public:
     explicit PlotWidget(QWidget * parent = nullptr) : QWidget(parent) {}
 
-    std::future<RedrawInfo> draw(PlotData plotData);
+    void clear(PlotData const & plotData);
+    std::future<RedrawInfo> draw(PlotData const & plotData, std::atomic_bool const & cancellationToken);
     bool saveImage(QString const & path) const;
 
 signals:
+    void engineThreadExited();
 
 public slots:
 

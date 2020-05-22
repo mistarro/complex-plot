@@ -7,14 +7,15 @@
 #include <QMessageBox>
 
 #include "ui/mainwindow.hpp"
-#include "engine/plotdata.hpp"
 #include "version.hpp"
 
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget * parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    state(State::READY),
+    cancellationToken(false)
 {
     ui->setupUi(this);
 
@@ -26,6 +27,13 @@ MainWindow::MainWindow(QWidget * parent) :
     ui->imminLineEdit->setValidator(doubleValidator);
     ui->immaxLineEdit->setValidator(doubleValidator);
     ui->colorSlopeLineEdit->setValidator(doubleValidator);
+
+    connect(ui->plotWidget, &PlotWidget::engineThreadExited, this, &MainWindow::on_engineThreadExited_triggered);
+
+    readPlotData();
+    ui->plotWidget->clear(plotData);
+
+    ui->statusBar->showMessage("Ready");
 }
 
 MainWindow::~MainWindow()
@@ -35,48 +43,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_drawButton_clicked()
 {
-    ui->actionSave->setEnabled(false);
-    ui->statusBar->clearMessage();
-
-    // read the data
-    PlotData plotData;
-    plotData.formula = ui->formulaLineEdit->text().toStdString();
-    plotData.reMin = ui->reminLineEdit->text().toDouble();
-    plotData.reMax = ui->remaxLineEdit->text().toDouble();
-    plotData.imMin = ui->imminLineEdit->text().toDouble();
-    plotData.imMax = ui->immaxLineEdit->text().toDouble();
-    plotData.imageWidth = ui->imageWidthSpinBox->value();
-    plotData.imageHeight = ui->imageHeightSpinBox->value();
-    plotData.coloringMethod = ui->coloringMethodComboBox->currentIndex();
-    plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
-
-    // process
-    std::future<RedrawInfo> fut = ui->plotWidget->draw(std::move(plotData));
-
-    RedrawInfo info;
-    try
+    switch (state)
     {
-        info = fut.get();
+    case State::READY:
+        draw();
+        break;
+    case State::BUSY:
+        cancel();
+        break;
     }
-    catch (std::invalid_argument const & e)
-    {
-        std::string error_msg = std::string("Formula error: ") + e.what() + ".";
-        QMessageBox::warning(this, QString("Formula error"), QString::fromStdString(error_msg));
-        return;
-    }
-
-    // update UI
-
-    ui->plotWidget->repaint();
-
-    std::stringstream message;
-    message << std::fixed << std::setprecision(2)
-            << "Parsing: " << info.parsingDuration.count()
-            << "s; Computing: " << info.computingDuration.count()
-            << "s; Coloring: " << info.coloringDuration.count() << "s.";
-
-    ui->actionSave->setEnabled(true);
-    ui->statusBar->showMessage(QString::fromStdString(message.str()));
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -97,4 +72,71 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::about(this, QString("About complex-plot"), QString("complex-plot " VERSION_STRING));
+}
+
+void MainWindow::on_engineThreadExited_triggered()
+{
+    ui->drawButton->setText("Draw");
+    state = State::READY;
+    RedrawInfo info = engineFuture.get();
+    if (info.status == RedrawInfo::Status::FINISHED)
+    {
+        ui->plotWidget->repaint();
+
+        std::stringstream message;
+        message << std::fixed << std::setprecision(2)
+                << "Parsing: " << info.parsingDuration.count()
+                << "s; Computing: " << info.computingDuration.count()
+                << "s; Coloring: " << info.coloringDuration.count() << "s.";
+
+        ui->actionSave->setEnabled(true);
+        ui->statusBar->showMessage(QString::fromStdString(message.str()));
+
+        return;
+    }
+
+    ui->plotWidget->clear(plotData);
+
+    if (info.status == RedrawInfo::Status::ERROR)
+    {
+        QMessageBox::warning(this, QString("Error"), QString::fromStdString(info.message));
+        ui->statusBar->showMessage("Ready");
+        return;
+    }
+
+    if (info.status == RedrawInfo::Status::CANCELLED)
+        ui->statusBar->showMessage("Cancelled");
+}
+
+void MainWindow::readPlotData()
+{
+    plotData.formula = ui->formulaLineEdit->text().toStdString();
+    plotData.reMin = ui->reminLineEdit->text().toDouble();
+    plotData.reMax = ui->remaxLineEdit->text().toDouble();
+    plotData.imMin = ui->imminLineEdit->text().toDouble();
+    plotData.imMax = ui->immaxLineEdit->text().toDouble();
+    plotData.imageWidth = ui->imageWidthSpinBox->value();
+    plotData.imageHeight = ui->imageHeightSpinBox->value();
+    plotData.coloringMethod = ui->coloringMethodComboBox->currentIndex();
+    plotData.colorSlope = ui->colorSlopeLineEdit->text().toDouble();
+}
+
+void MainWindow::draw()
+{
+    cancellationToken = false;
+    ui->actionSave->setEnabled(false);
+    ui->statusBar->showMessage("Drawing...");
+    ui->drawButton->setText("Cancel");
+    state = State::BUSY;
+
+    readPlotData();
+
+    // process
+    engineFuture = ui->plotWidget->draw(plotData, cancellationToken);
+}
+
+void MainWindow::cancel()
+{
+    cancellationToken = true;
+    ui->statusBar->showMessage("Cancelling...");
 }

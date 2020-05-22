@@ -40,11 +40,16 @@ inline void PlotData::complex2image(double re, double im, int & x, int & y) cons
 
 struct RedrawInfo
 {
+    enum class Status { FINISHED, CANCELLED, ERROR };
+    Status status;
+
     using DurationType = std::chrono::duration<double>;
 
     DurationType parsingDuration;
     DurationType computingDuration;
     DurationType coloringDuration;
+
+    std::string message;
 };
 
 #endif // COMPLEXPLOT_PLOTDATA_HPP
