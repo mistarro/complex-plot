@@ -3,6 +3,8 @@
 
 #include <atomic>
 #include <chrono>
+#include <optional>
+#include <queue>
 #include <vector>
 
 #include "coloring.hpp"
@@ -48,17 +50,54 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
 
     auto parsing_done_time = std::chrono::system_clock::now();
 
-    Grid<complex> values(plotData.imageWidth, plotData.imageHeight, 0.0);
+    Grid<std::optional<complex>> values(plotData.imageWidth, plotData.imageHeight);
 
-    for (int j = 0; j < plotData.imageHeight && !cancellationToken; ++j)
-    for (int i = 0; i < plotData.imageWidth && !cancellationToken; ++i)
+    struct QEntry
     {
-        // compute complex argument for the pixel at (i, j)
-        double re, im;
-        plotData.image2complex(i, j, re, im);
+        int x;
+        int y;
+    };
 
-        // compute value
-        values(i, j) = f(complex(re, im));
+    std::queue<QEntry> q;
+
+    int x, y;
+    plotData.complex2image(plotData.reSeed, plotData.imSeed, x, y);
+    q.push({x, y});
+    values(x, y) = complex(0.0, 0.0);
+
+    while (!q.empty() && !cancellationToken)
+    {
+        QEntry & e = q.front();
+        double re, im;
+        plotData.image2complex(e.x, e.y, re, im);
+        values(e.x, e.y) = f(complex(re, im));
+
+        // enqueue neighbors
+        if (e.x < plotData.imageWidth - 1 && !values(e.x + 1, e.y))
+        {
+            q.push({e.x + 1, e.y});
+            values(e.x + 1, e.y) = complex(0.0, 0.0);
+        }
+
+        if (e.x > 0 && !values(e.x - 1, e.y))
+        {
+            q.push({e.x - 1, e.y});
+            values(e.x - 1, e.y) = complex(0.0, 0.0);
+        }
+
+        if (e.y < plotData.imageHeight - 1 && !values(e.x, e.y + 1))
+        {
+            q.push({e.x, e.y + 1});
+            values(e.x, e.y + 1) = complex(0.0, 0.0);
+        }
+
+        if (e.y > 0 && !values(e.x, e.y - 1))
+        {
+            q.push({e.x, e.y - 1});
+            values(e.x, e.y - 1) = complex(0.0, 0.0);
+        }
+
+        q.pop();
     }
 
     auto computing_done_time = std::chrono::system_clock::now();
@@ -68,7 +107,7 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
     {
         // compute color
         double r, g, b;
-        complex2rgb_HL(values(i, j), plotData.colorSlope, r, g, b);
+        complex2rgb_HL(*values(i, j), plotData.colorSlope, r, g, b);
         update(i, j, r, g, b);
     }
 
