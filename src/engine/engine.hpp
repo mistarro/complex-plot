@@ -9,6 +9,24 @@
 #include "function.hpp"
 #include "plotdata.hpp"
 
+template <typename T>
+class Grid
+{
+public:
+    explicit Grid(std::size_t w, std::size_t h, T fill = T()) :
+        w(w), h(h), data(w*h, fill)
+    {}
+
+    T & operator()(std::size_t x, std::size_t y) { return data[y*w + x]; }
+    T const & operator()(std::size_t x, std::size_t y) const { return data[y*w + x]; }
+
+private:
+    std::size_t w;
+    std::size_t h;
+
+    std::vector<T> data;
+};
+
 template <typename UpdateFunc, typename NotifyExitFunc>
 RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc notifyExit, std::atomic_bool const & cancellationToken)
 {
@@ -30,7 +48,7 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
 
     auto parsing_done_time = std::chrono::system_clock::now();
 
-    std::vector<complex> values(plotData.imageWidth*plotData.imageHeight, 0.0);
+    Grid<complex> values(plotData.imageWidth, plotData.imageHeight, 0.0);
 
     for (int j = 0; j < plotData.imageHeight && !cancellationToken; ++j)
     for (int i = 0; i < plotData.imageWidth && !cancellationToken; ++i)
@@ -38,10 +56,9 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
         // compute complex argument for the pixel at (i, j)
         double re, im;
         plotData.image2complex(i, j, re, im);
-        complex z(re, im);
 
         // compute value
-        values[j*plotData.imageWidth + i] = f(z);
+        values(i, j) = f(complex(re, im));
     }
 
     auto computing_done_time = std::chrono::system_clock::now();
@@ -51,7 +68,7 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
     {
         // compute color
         double r, g, b;
-        complex2rgb_HL(values[j*plotData.imageWidth + i], plotData.colorSlope, r, g, b);
+        complex2rgb_HL(values(i, j), plotData.colorSlope, r, g, b);
         update(i, j, r, g, b);
     }
 
