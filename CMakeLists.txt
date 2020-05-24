@@ -34,3 +34,4 @@ add_executable(complex-plot
 target_include_directories(complex-plot PRIVATE src)
 target_compile_features(complex-plot PRIVATE cxx_std_17)
 target_link_libraries(complex-plot PRIVATE Qt5::Widgets Threads::Threads)
+target_compile_definitions(complex-plot PRIVATE QT_NO_EMIT)

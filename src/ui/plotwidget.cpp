@@ -28,7 +28,7 @@ std::future<RedrawInfo> PlotWidget::draw(PlotData const & plotData, std::atomic_
 
     auto notifyExit = [this]()
     {
-        emit engineThreadExited();
+        engineThreadExited();
     };
 
     return std::async(&redraw<decltype(update), decltype(notifyExit)>,
@@ -53,15 +53,15 @@ void PlotWidget::paintEvent(QPaintEvent * event)
 
 void PlotWidget::mouseMoveEvent(QMouseEvent * event)
 {
-    emit mouseMove(event);
+    mouseMove(event);
 }
 
 void PlotWidget::mouseReleaseEvent(QMouseEvent * event)
 {
-    emit mouseUp(event);
+    mouseUp(event);
 }
 
 void PlotWidget::leaveEvent(QEvent * event)
 {
-    emit mouseLeave();
+    mouseLeave();
 }
