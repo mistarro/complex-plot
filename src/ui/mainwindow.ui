@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>540</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -43,44 +43,60 @@
     <item>
      <widget class="QWidget" name="formWidget" native="true">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QFormLayout" name="formLayout">
+      <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,1" columnminimumwidth="0,1,1">
        <property name="sizeConstraint">
         <enum>QLayout::SetMinimumSize</enum>
        </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="formulaLabel">
-         <property name="minimumSize">
+       <item row="14" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
           <size>
-           <width>0</width>
-           <height>24</height>
+           <width>20</width>
+           <height>5</height>
           </size>
          </property>
-         <property name="text">
-          <string>f(z) =</string>
-         </property>
-        </widget>
+        </spacer>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="formulaLineEdit">
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="imMaxLineEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>24</height>
+           <width>0</width>
+           <height>0</height>
           </size>
          </property>
          <property name="text">
-          <string>z^2 + 1</string>
+          <string>3.2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="imSeedArgLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>1.0</string>
          </property>
         </widget>
        </item>
@@ -100,111 +116,52 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="reminLabel">
-         <property name="text">
-          <string>Re min</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="reminLineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="formulaLabel">
          <property name="minimumSize">
           <size>
-           <width>120</width>
+           <width>0</width>
            <height>24</height>
           </size>
          </property>
          <property name="text">
-          <string>-5.0</string>
+          <string>F(z, w) =</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="remaxLabel">
-         <property name="text">
-          <string>Re max</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="remaxLineEdit">
+       <item row="11" column="1">
+        <widget class="QLineEdit" name="colorSlopeLineEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>24</height>
+           <width>0</width>
+           <height>0</height>
           </size>
          </property>
          <property name="text">
-          <string>5.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="imminLabel">
-         <property name="text">
-          <string>Im min</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="imminLineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>-5.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="immaxLabel">
-         <property name="text">
-          <string>Im max</string>
+          <string>1.0</string>
          </property>
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLineEdit" name="immaxLineEdit">
+        <widget class="QLineEdit" name="reSeedArgLineEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>24</height>
-          </size>
-         </property>
          <property name="text">
-          <string>5.0</string>
+          <string>0.0</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="4" column="1">
         <spacer name="formVerticalSpacer2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -220,21 +177,7 @@
          </property>
         </spacer>
        </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="imageWidthLabel">
-         <property name="text">
-          <string>Image width</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="imageHeightLabel">
-         <property name="text">
-          <string>Image height</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
+       <item row="9" column="1">
         <spacer name="formVerticalSpacer3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -250,8 +193,230 @@
          </property>
         </spacer>
        </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="coloringMethodLabel">
+         <property name="text">
+          <string>Coloring method</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QSpinBox" name="imageHeightSpinBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="specialValueText">
+          <string notr="true"/>
+         </property>
+         <property name="minimum">
+          <number>4</number>
+         </property>
+         <property name="maximum">
+          <number>16000</number>
+         </property>
+         <property name="value">
+          <number>640</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="reMinLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>-3.2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="imMinLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>-3.2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="formulaLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>(z^2 + z + 1) - w^2*(z^2 - z + 1)</string>
+         </property>
+        </widget>
+       </item>
        <item row="13" column="1">
+        <widget class="QPushButton" name="drawButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Draw</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="reRangeLabel">
+         <property name="text">
+          <string>Range (real)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="reMaxLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>3.2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QSpinBox" name="imageWidthSpinBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="specialValueText">
+          <string notr="true"/>
+         </property>
+         <property name="minimum">
+          <number>4</number>
+         </property>
+         <property name="maximum">
+          <number>16000</number>
+         </property>
+         <property name="value">
+          <number>640</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="imRangeLabel">
+         <property name="text">
+          <string>Range (imaginary)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="seedArgLabel">
+         <property name="text">
+          <string>Seed (arg)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <spacer name="formVerticalSpacer4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="colorSlopeLabel">
+         <property name="text">
+          <string>Color slope</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="imageSizeLabel">
+         <property name="text">
+          <string>Image size (w, h)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1" colspan="2">
         <widget class="QComboBox" name="coloringMethodComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
          <item>
           <property name="text">
            <string>Hue/Lightness</string>
@@ -264,152 +429,26 @@
          </item>
         </widget>
        </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="colorSlopeLabel">
+       <item row="6" column="0">
+        <widget class="QLabel" name="seedValueLabel">
          <property name="text">
-          <string>Color slope</string>
+          <string>Seed (value)</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="1">
-        <widget class="QLineEdit" name="colorSlopeLineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>24</height>
-          </size>
-         </property>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="reSeedValueLineEdit">
          <property name="text">
           <string>1.0</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="16" column="1">
-        <widget class="QPushButton" name="drawButton">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Draw</string>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="coloringMethodLabel">
-         <property name="text">
-          <string>Coloring method</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QSpinBox" name="imageWidthSpinBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="specialValueText">
-          <string notr="true"/>
-         </property>
-         <property name="minimum">
-          <number>4</number>
-         </property>
-         <property name="maximum">
-          <number>16000</number>
-         </property>
-         <property name="value">
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QSpinBox" name="imageHeightSpinBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="specialValueText">
-          <string notr="true"/>
-         </property>
-         <property name="minimum">
-          <number>4</number>
-         </property>
-         <property name="maximum">
-          <number>16000</number>
-         </property>
-         <property name="value">
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLineEdit" name="reSeedLineEdit">
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="imSeedValueLineEdit">
          <property name="text">
           <string>0.0</string>
          </property>
         </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="reSeedLabel">
-         <property name="text">
-          <string>Seed (re)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="imSeedLineEdit">
-         <property name="text">
-          <string>0.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="imSeedLabel">
-         <property name="text">
-          <string>Seed (im)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <spacer name="formVerticalSpacer4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -422,6 +461,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>400</height>
+       </size>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -431,8 +476,8 @@
       <widget class="PlotWidget" name="plotWidget">
        <property name="geometry">
         <rect>
-         <x>248</x>
-         <y>222</y>
+         <x>412</x>
+         <y>352</y>
          <width>0</width>
          <height>0</height>
         </rect>
@@ -514,7 +559,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1200</width>
      <height>22</height>
     </rect>
    </property>
@@ -587,10 +632,14 @@
  </customwidgets>
  <tabstops>
   <tabstop>formulaLineEdit</tabstop>
-  <tabstop>reminLineEdit</tabstop>
-  <tabstop>remaxLineEdit</tabstop>
-  <tabstop>imminLineEdit</tabstop>
-  <tabstop>immaxLineEdit</tabstop>
+  <tabstop>reMinLineEdit</tabstop>
+  <tabstop>reMaxLineEdit</tabstop>
+  <tabstop>imMinLineEdit</tabstop>
+  <tabstop>imMaxLineEdit</tabstop>
+  <tabstop>reSeedArgLineEdit</tabstop>
+  <tabstop>imSeedArgLineEdit</tabstop>
+  <tabstop>reSeedValueLineEdit</tabstop>
+  <tabstop>imSeedValueLineEdit</tabstop>
   <tabstop>imageWidthSpinBox</tabstop>
   <tabstop>imageHeightSpinBox</tabstop>
   <tabstop>coloringMethodComboBox</tabstop>

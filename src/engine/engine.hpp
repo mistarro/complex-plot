@@ -35,15 +35,12 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
     RedrawInfo info;
 
     auto start_time = std::chrono::system_clock::now();
-    Function f;
-    try
-    {
-        f.fromFormula(plotData.formula);
-    }
-    catch (std::invalid_argument const & e)
+
+    Function f(plotData.formula);
+    if (!f)
     {
         info.status = RedrawInfo::Status::ERROR;
-        info.message = std::string("Formula error: ") + e.what() + ".";
+        info.message = f.getErrorMessage();
         notifyExit();
         return info;
     }
@@ -56,13 +53,14 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
     {
         int x;
         int y;
+        complex w0;
     };
 
     std::queue<QEntry> q;
 
     int x, y;
     plotData.complex2image(plotData.reSeed, plotData.imSeed, x, y);
-    q.push({x, y});
+    q.push({x, y, complex(plotData.reSeedValue, plotData.imSeedValue)});
     values(x, y) = complex(0.0, 0.0);
 
     while (!q.empty() && !cancellationToken)
@@ -70,30 +68,31 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
         QEntry & e = q.front();
         double re, im;
         plotData.image2complex(e.x, e.y, re, im);
-        values(e.x, e.y) = f(complex(re, im));
+        complex w = f(complex(re, im), e.w0);
+        values(e.x, e.y) = w;
 
         // enqueue neighbors
         if (e.x < plotData.imageWidth - 1 && !values(e.x + 1, e.y))
         {
-            q.push({e.x + 1, e.y});
+            q.push({e.x + 1, e.y, w});
             values(e.x + 1, e.y) = complex(0.0, 0.0);
         }
 
         if (e.x > 0 && !values(e.x - 1, e.y))
         {
-            q.push({e.x - 1, e.y});
+            q.push({e.x - 1, e.y, w});
             values(e.x - 1, e.y) = complex(0.0, 0.0);
         }
 
         if (e.y < plotData.imageHeight - 1 && !values(e.x, e.y + 1))
         {
-            q.push({e.x, e.y + 1});
+            q.push({e.x, e.y + 1, w});
             values(e.x, e.y + 1) = complex(0.0, 0.0);
         }
 
         if (e.y > 0 && !values(e.x, e.y - 1))
         {
-            q.push({e.x, e.y - 1});
+            q.push({e.x, e.y - 1, w});
             values(e.x, e.y - 1) = complex(0.0, 0.0);
         }
 

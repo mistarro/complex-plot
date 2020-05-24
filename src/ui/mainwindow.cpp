@@ -23,10 +23,14 @@ MainWindow::MainWindow(QWidget * parent) :
     ui->actionSave->setIcon(this->style()->standardIcon(QStyle::SP_DialogSaveButton));
 
     QValidator * doubleValidator = new QDoubleValidator(this);
-    ui->reminLineEdit->setValidator(doubleValidator);
-    ui->remaxLineEdit->setValidator(doubleValidator);
-    ui->imminLineEdit->setValidator(doubleValidator);
-    ui->immaxLineEdit->setValidator(doubleValidator);
+    ui->reMinLineEdit->setValidator(doubleValidator);
+    ui->reMaxLineEdit->setValidator(doubleValidator);
+    ui->imMinLineEdit->setValidator(doubleValidator);
+    ui->imMaxLineEdit->setValidator(doubleValidator);
+    ui->reSeedArgLineEdit->setValidator(doubleValidator);
+    ui->imSeedArgLineEdit->setValidator(doubleValidator);
+    ui->reSeedValueLineEdit->setValidator(doubleValidator);
+    ui->imSeedValueLineEdit->setValidator(doubleValidator);
     ui->colorSlopeLineEdit->setValidator(doubleValidator);
 
     connect(ui->plotWidget, &PlotWidget::engineThreadExited, this, &MainWindow::on_engineThreadExited_triggered);
@@ -38,6 +42,8 @@ MainWindow::MainWindow(QWidget * parent) :
     ui->plotWidget->clear(plotData);
 
     ui->statusBar->showMessage("Ready");
+
+    showMaximized();
 }
 
 MainWindow::~MainWindow()
@@ -115,12 +121,14 @@ void MainWindow::on_engineThreadExited_triggered()
 void MainWindow::readPlotData()
 {
     plotData.formula = ui->formulaLineEdit->text().toStdString();
-    plotData.reMin = ui->reminLineEdit->text().toDouble();
-    plotData.reMax = ui->remaxLineEdit->text().toDouble();
-    plotData.imMin = ui->imminLineEdit->text().toDouble();
-    plotData.imMax = ui->immaxLineEdit->text().toDouble();
-    plotData.reSeed = ui->reSeedLineEdit->text().toDouble();
-    plotData.imSeed = ui->imSeedLineEdit->text().toDouble();
+    plotData.reMin = ui->reMinLineEdit->text().toDouble();
+    plotData.reMax = ui->reMaxLineEdit->text().toDouble();
+    plotData.imMin = ui->imMinLineEdit->text().toDouble();
+    plotData.imMax = ui->imMaxLineEdit->text().toDouble();
+    plotData.reSeed = ui->reSeedArgLineEdit->text().toDouble();
+    plotData.imSeed = ui->imSeedArgLineEdit->text().toDouble();
+    plotData.reSeedValue = ui->reSeedValueLineEdit->text().toDouble();
+    plotData.imSeedValue = ui->imSeedValueLineEdit->text().toDouble();
     plotData.imageWidth = ui->imageWidthSpinBox->value();
     plotData.imageHeight = ui->imageHeightSpinBox->value();
     plotData.coloringMethod = ui->coloringMethodComboBox->currentIndex();
@@ -161,8 +169,8 @@ void MainWindow::on_plotWidget_mouseUp(QMouseEvent * event)
 {
     double re, im;
     plotData.image2complex(event->x(), event->y(), re, im);
-    ui->reSeedLineEdit->setText(QString::number(re));
-    ui->imSeedLineEdit->setText(QString::number(im));
+    ui->reSeedArgLineEdit->setText(QString::number(re));
+    ui->imSeedArgLineEdit->setText(QString::number(im));
 }
 
 void MainWindow::on_plotWidget_mouseLeft()
