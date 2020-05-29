@@ -41,15 +41,41 @@ Function::Function(std::string const & formula) :
     }
 }
 
+// compute square root "in direction" of b
+inline complex sqrt(complex z, complex b)
+{
+    double h = std::abs(z);
+    double x = std::sqrt((h + z.real())/2);
+    double y = std::sqrt((h - z.real())/2);
+    y = std::copysign(y, z.imag());
+    double s = std::copysign(1.0, x*b.real() + y*b.imag());
+    return complex(x*s, y*s);
+}
+
+inline double norm_1(complex z)
+{
+    return std::abs(z.real()) + std::abs(z.imag());
+}
+
 complex Function::operator()(complex z, complex w) const
 {
     for (std::uint16_t i = 0; i < maxIterations; ++i)
     {
         complex d0, d1, d2;
         fnHelper(z, w, d0, d1, d2);
-        if (std::abs(d0) < epsilon)
+        if (norm_1(d0) < std::numeric_limits<double>::epsilon())
             return w;
-        w -= d0/d1; // Newton method
+        // Laguerre's method
+        complex G = d1/d0;
+        complex G2 = G*G;
+        complex H = G2 - d2/d0;
+        complex tmp = degree*H - G2;
+        tmp = sqrt(tmp*(degree - 1.0), G);
+        complex correction = degree/(G + tmp);
+        w -= correction;
+        // check negation to also break when correction is NaN
+        if (!(norm_1(correction) > epsilon*(1.0 + norm_1(w))))
+            return w;
     }
 }
 
@@ -292,6 +318,53 @@ struct GenLLVMIR : Poly::Visitor
     LLVMComplexValue res[3];
 };
 
+struct PolyDegVal : Poly::Visitor
+{
+    PolyDegVal() :
+        deg(0)
+    {}
+
+    void visit(Poly::NumNode & node) override { deg = 0; }
+    void visit(Poly::ArgNode & node) override { deg = 0; }
+    void visit(Poly::ValNode & node) override { deg = 1; }
+    void visit(Poly::AddNode & node) override
+    {
+        node.getArg<0>()->accept(*this);
+        auto lhs = deg;
+        node.getArg<1>()->accept(*this);
+        auto rhs = deg;
+        deg = std::max(lhs, rhs);
+    }
+
+    void visit(Poly::SubNode & node) override
+    {
+        node.getArg<0>()->accept(*this);
+        auto lhs = deg;
+        node.getArg<1>()->accept(*this);
+        auto rhs = deg;
+        deg = std::max(lhs, rhs);
+    }
+
+    void visit(Poly::NegNode & node) override {}
+
+    void visit(Poly::MulNode & node) override
+    {
+        node.getArg<0>()->accept(*this);
+        auto lhs = deg;
+        node.getArg<1>()->accept(*this);
+        auto rhs = deg;
+        deg = lhs + rhs;
+    }
+
+    void visit(Poly::PowNode & node) override
+    {
+        node.getArg<0>()->accept(*this);
+        deg *= node.exp;
+    }
+
+    int deg;
+};
+
 } // namespace
 
 void Function::fromFormula(std::string const & formula)
@@ -378,4 +451,10 @@ void Function::fromFormula(std::string const & formula)
     exitOnErr(lljit->addIRModule(llvm::orc::ThreadSafeModule(std::move(module), std::move(ctx))));
     auto polySym = exitOnErr(lljit->lookup("fun"));
     f = reinterpret_cast<PolyFunPtrType>(polySym.getAddress());
+
+    // compute w-degree
+    PolyDegVal degVisitor;
+    poly.accept(degVisitor);
+    degree = degVisitor.deg;
+    std::cout << ">>>> w-degree: " << degVisitor.deg << std::endl;
 }

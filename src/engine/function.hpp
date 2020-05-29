@@ -33,6 +33,7 @@ private:
     using PolyFunPtrType = void (*)(double, double, double, double, double &, double &, double &, double &, double &, double &);
 
     PolyFunPtrType f;
+    double degree;
 
     void fromFormula(std::string const & formula);
 
