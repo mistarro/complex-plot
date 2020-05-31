@@ -15,7 +15,10 @@ using complex = std::complex<double>;
 class Function
 {
 public:
+    Function();
     Function(std::string const & formula);
+
+    bool fromFormula(std::string const & formula);
 
     complex operator()(complex z, complex w) const;
 
@@ -35,7 +38,7 @@ private:
     PolyFunPtrType f;
     double degree;
 
-    void fromFormula(std::string const & formula);
+    void fromFormula_internal(std::string const & formula);
 
     static double & re(complex & z)
     {

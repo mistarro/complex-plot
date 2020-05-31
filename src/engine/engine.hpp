@@ -29,6 +29,34 @@ private:
     std::vector<T> data;
 };
 
+inline void checkPlotData(PlotData const & plotData, Function & f, RedrawInfo & info)
+{
+    if (plotData.reMin >= plotData.reMax ||
+        plotData.imMin >= plotData.imMax)
+    {
+        info.status = RedrawInfo::Status::ERROR;
+        info.message = "Complex plane range error.";
+        return;
+    }
+
+    if (plotData.reSeed < plotData.reMin ||
+        plotData.reSeed > plotData.reMax ||
+        plotData.imSeed < plotData.imMin ||
+        plotData.imSeed > plotData.imMax)
+    {
+        info.status = RedrawInfo::Status::ERROR;
+        info.message = "Seed argument not in range.";
+        return;
+    }
+
+    if (!f.fromFormula(plotData.formula))
+    {
+        info.status = RedrawInfo::Status::ERROR;
+        info.message = f.getErrorMessage();
+        return;
+    }
+}
+
 template <typename UpdateFunc, typename NotifyExitFunc>
 RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc notifyExit, std::atomic_bool const & cancellationToken)
 {
@@ -36,11 +64,13 @@ RedrawInfo redraw(PlotData const & plotData, UpdateFunc update, NotifyExitFunc n
 
     auto start_time = std::chrono::system_clock::now();
 
-    Function f(plotData.formula);
-    if (!f)
+    Function f;
+
+    // check plot data
+    info.status = RedrawInfo::Status::CANCELLED;
+    checkPlotData(plotData, f, info);
+    if (info.status == RedrawInfo::Status::ERROR)
     {
-        info.status = RedrawInfo::Status::ERROR;
-        info.message = f.getErrorMessage();
         notifyExit();
         return info;
     }

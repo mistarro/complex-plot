@@ -22,24 +22,40 @@
 #include "Parser.hpp"
 #include "Polynomial.hpp"
 
-Function::Function(std::string const & formula) :
+Function::Function() :
     f(nullptr),
-    message("Success")
+    message("Empty function.")
 {
     // initialize LLVM and LLJIT
     llvm::InitializeNativeTarget();
     llvm::InitializeNativeTargetAsmPrinter();
     lljit = exitOnErr(llvm::orc::LLJITBuilder().create());
+}
 
+Function::Function(std::string const & formula) :
+    Function()
+{
+    fromFormula(formula);
+}
+
+bool Function::fromFormula(std::string const & formula)
+{
+    f = nullptr;
     try
     {
-        fromFormula(formula);
+        fromFormula_internal(formula);
     }
     catch (std::invalid_argument const & e)
     {
         message = std::string("Formula error: ") + e.what() + ".";
+        return false;
     }
+
+    message = "Success.";
+    return true;
 }
+
+namespace {
 
 // compute square root "in direction" of b
 inline complex sqrt(complex z, complex b)
@@ -56,6 +72,8 @@ inline double norm_1(complex z)
 {
     return std::abs(z.real()) + std::abs(z.imag());
 }
+
+} // namespace
 
 complex Function::operator()(complex z, complex w) const
 {
@@ -367,7 +385,7 @@ struct PolyDegVal : Poly::Visitor
 
 } // namespace
 
-void Function::fromFormula(std::string const & formula)
+void Function::fromFormula_internal(std::string const & formula)
 {
     Parser<ParserTraits> parser(formula.cbegin(), formula.cend());
     Poly poly(parser.parse());
